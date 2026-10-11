@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة المشروع — تحسين البيئة السكنية | الورقة 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@500;700;900&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0C1A25; --panel:#12252F; --panel-2:#17303C; --line:#22414F;
+  --sand:#E3A93C; --teal:#46B3A6; --rose:#E0645C; --mint:#5FC98D; --sky:#6FA8DC;
+  --text:#E8F0F2; --muted:#8FA9B3;
+  --display:'Noto Kufi Arabic', Tahoma, sans-serif;
+  --body:'IBM Plex Sans Arabic', Tahoma, sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:radial-gradient(1200px 500px at 90% -10%, #1b3a46 0%, transparent 60%), var(--ink);
+  color:var(--text);font-family:var(--body);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1480px;margin:0 auto;padding:24px 20px 80px}
+
+header.top{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
+  border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:22px}
+.brand h1{font-family:var(--display);font-weight:900;font-size:30px;margin:0 0 6px;letter-spacing:-.5px}
+.brand h1 span{color:var(--sand)}
+.brand p{margin:0;color:var(--muted);font-size:14px}
+.stamp{border:1px dashed var(--sand);color:var(--sand);border-radius:4px;padding:8px 14px;
+  font-family:var(--display);font-size:13px;text-align:center;line-height:1.5}
+.stamp b{display:block;font-size:20px}
+.stamps{display:flex;flex-wrap:wrap;gap:10px}
+.stamp.st-done{border-color:var(--mint);color:var(--mint)}
+.stamp.st-prog{border-color:var(--teal);color:var(--teal)}
+.stamp.st-new{border-color:var(--sky);color:var(--sky)}
+.stamp.st-total{border:1px solid var(--sand);border-style:solid;background:#E3A93C18;color:var(--sand)}
+.seg{display:flex;height:8px;border-radius:4px;overflow:hidden;background:#ffffff12;margin:6px 0 8px}
+.seg i{display:block;height:100%}
+.seg .s-done{background:var(--mint)} .seg .s-prog{background:var(--teal)} .seg .s-new{background:var(--sky)}
+.legend{display:grid;gap:3px;font-size:12px;color:var(--muted)}
+.legend div{display:flex;justify-content:space-between;gap:8px}
+.legend b{color:var(--text)}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:6px}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:linear-gradient(160deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+  border-radius:10px;padding:14px 16px;position:relative;overflow:hidden}
+.kpi::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--teal)}
+.kpi.gold::before{background:var(--sand)} .kpi.red::before{background:var(--rose)}
+.kpi.green::before{background:var(--mint)} .kpi.sky::before{background:var(--sky)}
+.kpi .lbl{color:var(--muted);font-size:12.5px;margin-bottom:4px}
+.kpi .val{font-family:var(--display);font-weight:700;font-size:23px;letter-spacing:-.5px}
+.kpi .sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+.kpi .mini{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.7}
+.kpi .mini span{color:var(--text);font-weight:600}
+.mtrack{background:#ffffff12;border-radius:3px;height:6px;margin:5px 0 3px;overflow:hidden}
+.mfill{height:100%;border-radius:3px;background:var(--sand)}
+.mfill.ok{background:var(--mint)} .mfill.over{background:var(--rose)}
+
+.stuckbar{background:#E0645C12;border:1px solid #E0645C40;border-radius:10px;padding:12px 16px;margin-bottom:24px}
+.stuckbar b{font-family:var(--display);color:var(--rose);font-size:13.5px;margin-inline-end:8px}
+.stuckbar .chip{display:inline-block;background:#E0645C22;border:1px solid #E0645C55;color:#F4B3AE;
+  border-radius:999px;padding:3px 12px;font-size:12.5px;margin:3px 3px 3px 0}
+
+nav.tabs{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line);margin-bottom:20px}
+nav.tabs button{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);
+  font-family:var(--display);font-size:14px;font-weight:500;padding:10px 14px;cursor:pointer;border-radius:6px 6px 0 0}
+nav.tabs button:hover{color:var(--text);background:#ffffff08}
+nav.tabs button[aria-selected="true"]{color:var(--sand);border-bottom-color:var(--sand);background:#ffffff08}
+section.tab[hidden]{display:none}
+
+.filters{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center}
+.filters input,.filters select{background:var(--panel);border:1px solid var(--line);color:var(--text);
+  border-radius:8px;padding:9px 12px;font-family:var(--body);font-size:14px;min-width:170px}
+.filters .count{color:var(--muted);font-size:13px;margin-inline-start:auto}
+.btn{background:var(--panel);border:1px solid var(--line);color:var(--text);border-radius:8px;
+  padding:9px 14px;cursor:pointer;font-family:var(--body);font-size:13.5px}
+.btn:hover{border-color:var(--sand);color:var(--sand)}
+
+.tablewrap{border:1px solid var(--line);border-radius:12px;overflow:auto;background:var(--panel)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;white-space:nowrap}
+thead th{background:var(--panel-2);position:sticky;top:0;z-index:2;text-align:right;
+  font-family:var(--display);font-weight:500;font-size:12.5px;color:var(--muted);
+  padding:11px 12px;border-bottom:1px solid var(--line);cursor:pointer;user-select:none}
+thead th:hover{color:var(--sand)}
+thead th.no-sort{cursor:default} thead th.no-sort:hover{color:var(--muted)}
+tbody td{padding:10px 12px;border-bottom:1px solid #ffffff0d;vertical-align:middle}
+tbody tr:hover{background:#ffffff08}
+tbody tr.click{cursor:pointer}
+tfoot td{padding:12px;background:var(--panel-2);font-family:var(--display);font-weight:700;border-top:2px solid var(--line)}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+.dim{color:var(--muted)}
+.over{color:var(--rose)} .okc{color:var(--mint)}
+.pill{display:inline-block;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.p-done{background:#5FC98D22;color:var(--mint);border:1px solid #5FC98D55}
+.p-prog{background:#46B3A622;color:var(--teal);border:1px solid #46B3A655}
+.p-new{background:#6FA8DC22;color:var(--sky);border:1px solid #6FA8DC55}
+.p-stuck{background:#E0645C22;color:var(--rose);border:1px solid #E0645C55}
+.cell-status{white-space:normal;min-width:240px;max-width:340px;line-height:1.5}
+
+.drawer{position:fixed;top:0;bottom:0;right:0;width:min(520px,100%);background:var(--panel);
+  border-left:1px solid var(--line);transform:translateX(100%);transition:transform .28s ease;z-index:50;
+  display:flex;flex-direction:column;box-shadow:-14px 0 40px #0006;visibility:hidden}
+.drawer.open{transform:translateX(0);visibility:visible}
+.drawer header{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.drawer header h3{font-family:var(--display);margin:0 0 4px;font-size:19px}
+.drawer .body{padding:18px 20px;overflow:auto}
+.dl{display:grid;grid-template-columns:auto 1fr;gap:8px 14px;font-size:13.5px;margin-bottom:20px}
+.dl dt{color:var(--muted)} .dl dd{margin:0}
+.close{background:none;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:6px 11px;cursor:pointer;font-size:16px}
+.close:hover{color:var(--rose);border-color:var(--rose)}
+.scrim{position:fixed;inset:0;background:#000a;opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}
+.scrim.open{opacity:1;pointer-events:auto}
+
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.card h3{font-family:var(--display);font-size:16px;margin:0 0 4px}
+.card .hint{color:var(--muted);font-size:12.5px;margin:0 0 16px}
+.bar{margin-bottom:11px}
+.bar .row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;gap:12px}
+.bar .track{background:#ffffff10;border-radius:4px;height:9px;overflow:hidden}
+.bar .fill{height:100%;border-radius:4px;background:var(--teal)}
+.bar.gold .fill{background:var(--sand)} .bar.green .fill{background:var(--mint)} .bar.sky .fill{background:var(--sky)}
+
+h2.sec{font-family:var(--display);font-size:19px;margin:30px 0 12px;padding-inline-start:12px;border-inline-start:3px solid var(--sand)}
+h2.sec:first-child{margin-top:0}
+.note{background:#E3A93C12;border:1px solid #E3A93C40;border-radius:10px;padding:12px 16px;font-size:13px;color:#F0D8A8;margin-bottom:18px}
+.warn{background:#E0645C12;border:1px solid #E0645C40;border-radius:10px;padding:12px 16px;font-size:13px;color:#F4C4C0;margin-bottom:18px}
+ul.changes{margin:0;padding:0 18px 0 0;line-height:2}
+ul.changes li{margin-bottom:2px}
+@media (max-width:640px){.brand h1{font-size:23px}.wrap{padding:16px 12px 60px}.dl{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div class="brand">
+    <h1>لوحة <span>المشروع</span> — تحسين البيئة السكنية</h1>
+    <p>المصدر: «الورقة 3» من ملف جداول متابعة المشاريع · آخر تحديث للمشاريع الجارية 2026/10/08 · ترميم المنازل في محافظات منطقة الرياض</p>
+  </div>
+  <div class="stamps">
+    <div class="stamp st-done">تم الترميم<b id="sDone"></b>منزلاً</div>
+    <div class="stamp st-prog">قيد الترميم<b id="sProg"></b>منزلاً</div>
+    <div class="stamp st-new">مستفيدون جدد<b id="sNew"></b>منزلاً</div>
+    <div class="stamp st-total">الإجمالي<b id="sTotal"></b>منزلاً</div>
+  </div>
+</header>
+
+<div class="kpis">
+  <div class="kpi gold"><div class="lbl">إجمالي تسعيرة المشاريع</div><div class="val num" id="kPrice"></div><div class="sub">ريال · بلا المتعثرة (غير مسعّرة)</div></div>
+  <div class="kpi"><div class="lbl">إجمالي الدفعات المحوّلة</div><div class="val num" id="kPaid"></div>
+    <div class="mini"><span id="kPaidPct"></span> من تسعيرة المشاريع<div class="mtrack"><div class="mfill" id="kPaidBar"></div></div>آخر مبالغ مسجّلة (ورقة projects.x1sx) — الورقة 3 بلا مبالغ دفعات</div></div>
+  <div class="kpi green"><div class="lbl">متوسط سعر الترميم</div><div class="val num" id="kAvg"></div><div class="sub">ريال لكل منزل (<span id="kAvgN"></span> منزلاً)</div></div>
+  <div class="kpi green"><div class="lbl">الالتزام بالميزانية المستهدفة</div><div class="val num" id="kCommit"></div>
+    <div class="mini">من الحد المرجعي 50,000 ريال/منزل<div class="mtrack"><div class="mfill ok" id="kCommitBar"></div></div><span id="kCommitNote"></span></div></div>
+  <div class="kpi sky"><div class="lbl">نطاق التغطية الجغرافية</div><div class="val num" id="kGov"></div><div class="sub">محافظة بها مشاريع قائمة (من <span id="kGovAll"></span> في اللوحة)</div></div>
+  <div class="kpi gold"><div class="lbl">إجمالي القيمة المعتمدة</div><div class="val num">10,600,000</div>
+    <div class="mini"><span id="kAppPct"></span> من تسعيرة المشاريع<div class="mtrack"><div class="mfill" id="kAppBar"></div></div><span id="kAppNote"></span></div></div>
+  <div class="kpi gold"><div class="lbl">مستهدف المنازل</div><div class="val num">200</div>
+    <div class="mini">
+      <div class="seg"><i class="s-done" id="segDone"></i><i class="s-prog" id="segProg"></i><i class="s-new" id="segNew"></i></div>
+      <div class="legend">
+        <div><span><span class="dot" style="background:var(--mint)"></span>تم الترميم</span><span><b class="num" id="lgDone"></b> · <span id="lgDoneP"></span></span></div>
+        <div><span><span class="dot" style="background:var(--teal)"></span>قيد الترميم</span><span><b class="num" id="lgProg"></b> · <span id="lgProgP"></span></span></div>
+        <div><span><span class="dot" style="background:var(--sky)"></span>مستفيدون جدد</span><span><b class="num" id="lgNew"></b> · <span id="lgNewP"></span></span></div>
+      </div>
+      <div style="margin-top:6px">المجموع <span id="kScope"></span> منزلاً = <span id="kScopePct"></span> — <span id="kScopeNote"></span></div>
+    </div></div>
+  <div class="kpi green"><div class="lbl">تم الترميم</div><div class="val num" id="kDone"></div><div class="sub"><span id="kDoneP"></span> مشروعًا · <span id="kDonePr"></span> ريال</div></div>
+  <div class="kpi"><div class="lbl">قيد الترميم</div><div class="val num" id="kProg"></div><div class="sub"><span id="kProgP"></span> مشروعًا · <span id="kProgPr"></span> ريال</div></div>
+  <div class="kpi sky"><div class="lbl">المستفيدون الجدد</div><div class="val num" id="kNew"></div><div class="sub"><span id="kNewP"></span> مشاريع · <span id="kNewPr"></span> ريال</div></div>
+</div>
+
+<div class="stuckbar">
+  <b>المشاريع المتعثرة (بالاسم):</b>
+  <span id="stuckChips"></span>
+</div>
+
+<nav class="tabs" role="tablist">
+  <button role="tab" aria-selected="true" data-tab="t1">جدول المشاريع</button>
+  <button role="tab" aria-selected="false" data-tab="t2">المتعثرة</button>
+  <button role="tab" aria-selected="false" data-tab="t3">التغطية الجغرافية</button>
+  <button role="tab" aria-selected="false" data-tab="t4">التحليلات</button>
+  <button role="tab" aria-selected="false" data-tab="t5">الملخّص المالي</button>
+  <button role="tab" aria-selected="false" data-tab="t6">ما تغيّر</button>
+</nav>
+
+<!-- 1) جدول المشاريع -->
+<section class="tab" id="t1">
+  <div class="filters">
+    <input id="q" type="search" placeholder="ابحث باسم محافظة أو موقع أو جمعية أو حالة…">
+    <select id="fSec">
+      <option value="">كل الأقسام</option>
+      <option value="done">تم الترميم</option>
+      <option value="prog">قيد الترميم</option>
+      <option value="new">المستفيدون الجدد</option>
+      <option value="stuck">المتعثرة</option>
+    </select>
+    <select id="fGov"><option value="">كل المحافظات</option></select>
+    <button class="btn" id="reset">إعادة الضبط</button>
+    <span class="count" id="count"></span>
+  </div>
+
+  <div class="tablewrap">
+    <table id="tbl">
+      <thead><tr>
+        <th data-k="idx">م</th>
+        <th data-k="sec">القسم</th>
+        <th data-k="gov">المحافظة</th>
+        <th data-k="place">الموقع / المشروع</th>
+        <th data-k="assoc">الجمعية المنفذة</th>
+        <th data-k="houses">عدد المنازل / اسم المتعثر</th>
+        <th data-k="price">تسعيرة المشروع</th>
+        <th data-k="per">تكلفة المنزل</th>
+        <th data-k="paid">المحوّل</th>
+        <th data-k="status">حالة المشروع</th>
+        <th data-k="upd">آخر تحديث</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+      <tfoot><tr>
+        <td colspan="5">الإجمالي (بلا المتعثرة)</td>
+        <td class="num" id="sumH"></td>
+        <td class="num" id="sumP"></td>
+        <td class="num" id="sumPer"></td>
+        <td class="num" id="sumPaid"></td>
+        <td colspan="2"></td>
+      </tr></tfoot>
+    </table>
+  </div>
+  <p class="dim" style="margin-top:10px;font-size:12.5px">اضغط على أي صف لعرض بطاقته. تكلفة المنزل بالأحمر إن تجاوزت الحد المرجعي 50,000 ريال. المتعثرة تُعرض بالاسم ولا تدخل في أي إجمالي.</p>
+</section>
+
+<!-- 2) المتعثرة -->
+<section class="tab" id="t2" hidden>
+  <div class="warn">المشاريع المتعثرة تُسجَّل بالاسم، وهي <b>غير مسعّرة</b> في الورقة 3 ولا تدخل في أي إجمالي بالّلوحة. عدد المنازل المبيَّن هنا للاطلاع فقط كما ورد في جدول «المنازل المتعثرة».</div>
+  <div class="tablewrap">
+    <table><thead><tr>
+      <th class="no-sort">اسم المشروع المتعثر</th><th class="no-sort">المحافظة</th>
+      <th class="no-sort">عدد المنازل (للاطلاع)</th><th class="no-sort">آخر تحديث</th><th class="no-sort">حال المشروع</th>
+    </tr></thead><tbody id="stuckBody"></tbody>
+    <tfoot><tr><td colspan="2">المجموع (كما في الورقة)</td><td class="num" id="stuckSum"></td><td colspan="2"></td></tr></tfoot></table>
+  </div>
+</section>
+
+<!-- 3) التغطية الجغرافية -->
+<section class="tab" id="t3" hidden>
+  <div class="note">كل المحافظات المدرجة في اللوحة وعدد منازلها في كل قسم. المتعثر يُذكر بالاسم بدل العدد. ثادق وحريملاء صفّان مدموجان في الورقة (4 منازل / 233,750) وموزّعان 3 و1 بحسب إفادتك.</div>
+  <div class="tablewrap">
+    <table><thead><tr>
+      <th class="no-sort">المحافظة</th><th class="no-sort">تم الترميم</th><th class="no-sort">قيد الترميم</th>
+      <th class="no-sort">مستفيدون جدد</th><th class="no-sort">إجمالي منازل المشروع</th><th class="no-sort">متعثر (بالاسم)</th>
+    </tr></thead><tbody id="govBody"></tbody>
+    <tfoot><tr><td>الإجمالي</td><td class="num" id="gD"></td><td class="num" id="gP"></td><td class="num" id="gN"></td><td class="num" id="gT"></td><td></td></tr></tfoot></table>
+  </div>
+</section>
+
+<!-- 4) التحليلات -->
+<section class="tab" id="t4" hidden>
+  <div class="grid2">
+    <div class="card">
+      <h3>المنازل حسب القسم</h3>
+      <p class="hint">تم الترميم · قيد الترميم · المستفيدون الجدد</p>
+      <div id="chartSec"></div>
+    </div>
+    <div class="card">
+      <h3>التسعيرة حسب القسم (ريال)</h3>
+      <p class="hint">بلا المتعثرة</p>
+      <div id="chartSecPrice"></div>
+    </div>
+    <div class="card">
+      <h3>المنازل حسب المحافظة</h3>
+      <p class="hint">مجموع منازل كل محافظة (بلا المتعثرة)</p>
+      <div id="chartGov"></div>
+    </div>
+    <div class="card">
+      <h3>أكبر التسعيرات (ريال)</h3>
+      <p class="hint">أعلى عشرة مشاريع من حيث تسعيرة المشروع</p>
+      <div id="chartPrice"></div>
+    </div>
+    <div class="card">
+      <h3>نسبة الصرف لكل مشروع</h3>
+      <p class="hint">المحوّل ÷ التسعيرة — المشاريع التي لها مبالغ دفعات مسجّلة</p>
+      <div id="chartProg"></div>
+    </div>
+    <div class="card">
+      <h3>المشاريع الأعلى تكلفة للمنزل (ريال)</h3>
+      <p class="hint">الحد المرجعي 50,000 — الأعلى أولًا</p>
+      <div id="chartPer"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 5) الملخص المالي -->
+<section class="tab" id="t5" hidden>
+  <h2 class="sec">متوسط سعر المنزل مقارنةً بالحد المرجعي (50,000 ريال)</h2>
+  <div class="tablewrap">
+    <table><thead><tr>
+      <th class="no-sort">القسم</th><th class="no-sort">عدد المنازل</th><th class="no-sort">التسعيرة</th>
+      <th class="no-sort">متوسط المنزل</th><th class="no-sort">% من الحد المرجعي</th>
+    </tr></thead><tbody id="avgBody"></tbody></table>
+  </div>
+
+  <h2 class="sec">مطابقة مجاميع الورقة مع مجموع الصفوف</h2>
+  <div class="tablewrap">
+    <table><thead><tr>
+      <th class="no-sort">البند</th><th class="no-sort">المسجَّل في الورقة</th>
+      <th class="no-sort">المحسوب من الصفوف</th><th class="no-sort">النتيجة</th>
+    </tr></thead><tbody id="reconBody"></tbody></table>
+  </div>
+
+  <h2 class="sec">القيمة المعتمدة مقابل التسعيرة</h2>
+  <div class="grid2">
+    <div class="card"><div id="chartApp"></div></div>
+    <div class="card" id="payNote"></div>
+  </div>
+</section>
+
+<!-- 6) ما تغيّر -->
+<section class="tab" id="t6" hidden>
+  <div class="note">مقارنة الورقة 3 بالورقة السابقة (projects.x1sx).</div>
+  <div class="card">
+    <ul class="changes">
+      <li><b>هيكل جديد:</b> أربعة جداول — تم الترميم (15 صفًا · 38 منزلاً · 1,811,058) · قيد الترميم (16 صفًا · 156 منزلاً · 7,978,249) · المستفيدون الجدد (3 صفوف · 20 منزلاً · 714,800) · المنازل المتعثرة (6 صفوف · 28 منزلاً).</li>
+      <li><b>الرين:</b> انتقلت من «متعثر — بدون صك» إلى <b>13 منزلاً جديدًا</b> (367,800) مع بقاء منزلين متعثرين.</li>
+      <li><b>عفيف:</b> الشواطن 6 منازل بتسعيرة <b>297,000</b> (كانت بلا تسعيرة)، ومنزلان متعثران.</li>
+      <li><b>القويعية:</b> منزل جديد (رويضة العرش) بتسعيرة 50,000.</li>
+      <li><b>مركز النبوان:</b> من 5 إلى <b>7 منازل</b> بنفس التسعيرة 250,000 (تكلفة المنزل نزلت إلى ≈35,714).</li>
+      <li><b>المزاحمية (المرحلة 2):</b> صارت متعثرة وبلا تسعيرة (كانت 35,000).</li>
+      <li><b>مغيب السر:</b> 14 منزلاً متعثرًا بلا تسعيرة (كانت 918,690). <b>وادي الدواسر (بيتي):</b> 7 منازل متعثرة. <b>حوطة بني تميم:</b> منزلان متعثران.</li>
+      <li><b>ثادق وحريملاء:</b> خلية مدموجة في الورقة (4 منازل / 233,750) — فارتفع الالتباس الذي ظهر سابقًا من صف ثادق الفارغ.</li>
+      <li><b>التسعيرات الأخرى وأعداد المنازل:</b> لم تتغير. تواريخ التحديث للمشاريع الجارية 2026/10/08، وللمتعثرة 2026/08/26.</li>
+      <li><b>ما لم يعد في الورقة:</b> أعمدة الدفعات الأولى–الرابعة وعضوية الجمعيات؛ لذلك بطاقة الدفعات تعتمد آخر مبالغ مسجّلة، وأُزيلت بطاقة «مشتركون في العضوية».</li>
+    </ul>
+  </div>
+</section>
+
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <header>
+    <div><h3 id="dTitle"></h3><div class="dim" id="dSub" style="font-size:13px"></div></div>
+    <button class="close" id="dClose" aria-label="إغلاق">✕</button>
+  </header>
+  <div class="body">
+    <dl class="dl" id="dList"></dl>
+    <div id="dNote"></div>
+  </div>
+</aside>
+
+<script>
+/* ====== بيانات الورقة 3 ====== */
+const ST_NEW="في انتظار توقيع تعميد الصرف ومذكرة التفاهم";
+const ST_STUCK="تم رفع للجنة سبب التعثر وبانتظار توجيه اللجنة";
+const SIN_NOTE="مشروع جمعية سين مشترك بين أربع محافظات (9 منازل / 450,000)؛ الدفعات الثلاث (225,000 + 112,499 + 112,499.50) مسجّلة على مستوى المشروع كله لا على هذا الصف.";
+const R=[
+/* ===== تم الترميم ===== */
+{sec:"done",gov:"رماح",place:"رماح",assoc:"جمعية البر برماح",houses:1,price:63000,pay:[10000,20000,20000,13000]},
+{sec:"done",gov:"الرياض",place:"هيت (المرحلة 1)",assoc:"محافظة الرياض (هيت)",houses:1,price:31500,pay:[15750,15750]},
+{sec:"done",gov:"الدرعية",place:"الدرعية (سين)",assoc:"جمعية سين",houses:1,price:50000,shared:1,note:SIN_NOTE},
+{sec:"done",gov:"الحريق",place:"الحريق (سين)",assoc:"جمعية سين",houses:2,price:100000,shared:1,note:SIN_NOTE},
+{sec:"done",gov:"الدلم",place:"الدلم (سين)",assoc:"جمعية سين",houses:5,price:250000,shared:1,note:SIN_NOTE},
+{sec:"done",gov:"القويعية",place:"الجلة وتبراك (سين)",assoc:"جمعية سين",houses:1,price:50000,shared:1,note:SIN_NOTE},
+{sec:"done",gov:"وادي الدواسر",place:"النويعمة",assoc:"جمعية البر بالنويعمة",houses:2,price:100000,pay:[50000,50000]},
+{sec:"done",gov:"الأفلاج",place:"مركز الأحمر (المرحلة 1)",assoc:"جمعية البر بالأحمر",houses:1,price:76300,pay:[36624,22890,16786]},
+{sec:"done",gov:"الأفلاج",place:"البديع (المرحلة 1)",assoc:"جمعية البر بالبديع",houses:2,price:77005,pay:[50000,27005]},
+{sec:"done",gov:"الغاط",place:"الغاط",assoc:"جمعية البر بالغاط",houses:3,price:135650,pay:[81390,27130,27130]},
+{sec:"done",gov:"شقراء",place:"شقراء",assoc:"جمعية البر بشقراء",houses:2,price:37000,pay:[18500,12950,4629.87]},
+{sec:"done",gov:"الدوادمي",place:"البجادية (المرحلتان 1 و2)",assoc:"جمعية البر بالبجادية",houses:10,price:583603,pay:[204260,233441,145902],note:"صف واحد يجمع المرحلة الأولى (280,867) والثانية (302,736)."},
+{sec:"done",gov:"حوطة بني تميم",place:"الحلوة",assoc:"جمعية البر بالحلوة",houses:2,price:100000,pay:[30000,30000,40000]},
+{sec:"done",gov:"المزاحمية",place:"المزاحمية (المرحلة 1)",assoc:"جمعية البر بالمزاحمية",houses:1,price:50000,pay:[10000,20000,20000]},
+{sec:"done",gov:"مرات",place:"مرات",assoc:"جمعية البر بمرات",houses:4,price:107000,pay:[42800,42800,21400]},
+
+/* ===== قيد الترميم ===== */
+{sec:"prog",gov:"الرياض",place:"هيت (المرحلة 2)",assoc:"محافظة الرياض (هيت)",houses:4,price:294000,pay:[117600],status:"في انتظار الانتهاء من المرحلة الأخيرة وتم طلب تحديث منه"},
+{sec:"prog",gov:"المجمعة",place:"المجمعة",assoc:"جمعية بيوت",houses:5,price:250000,pay:[100000],status:"تم تذكيره بإرسال خطاب التعهد والالتزام"},
+{sec:"prog",gov:"المجمعة",place:"أم سديرة",assoc:"جمعية البر بمركز أم سديرة",houses:2,price:45000,pay:[11250],status:"تم الانتهاء من الترميم وتم رفع المعاملة في رافد"},
+{sec:"prog",gov:"الزلفي",place:"الزلفي",assoc:"جمعية البر بالزلفي",houses:4,price:227680,pay:[113840],status:"في انتظار تعميد إحسان لمسوغات صرف الدفعة الثانية"},
+{sec:"prog",gov:"الخرج",place:"الخرج",assoc:"جمعية البر بالخرج",houses:8,price:163800,pay:[57520,65520],status:"في انتظار الانتهاء من المرحلة الأخيرة وتم طلب تحديث منه"},
+{sec:"prog",gov:"الخرج",place:"الخرج (نوارة)",assoc:"جمعية نوارة",houses:20,price:1000000,pay:[150000,250000,250000],status:"في انتظار الانتهاء من المرحلة الثالثة وتم طلب تحديث منه"},
+{sec:"prog",gov:"وادي الدواسر",place:"وادي الدواسر والسليل",assoc:"جمعية دار الأمل للإسكان",houses:43,price:2590120,pay:[241802],status:"في انتظار الانتهاء من المرحلة الأولى",note:"السليل مدمجة في هذا الصف ولا تظهر كمحافظة مستقلة في الورقة."},
+{sec:"prog",gov:"الأفلاج",place:"مركز الأحمر (المرحلة 2)",assoc:"جمعية البر بالأحمر",houses:1,price:71000,pay:[42600],status:"تم تحويل الدفعة الأولى وأُرسل سند قبض"},
+{sec:"prog",gov:"الأفلاج",place:"البديع (المرحلة 2)",assoc:"",houses:16,price:863385,status:"في انتظار الانتهاء من المرحلة الأولى وتم طلب تحديث منه"},
+{sec:"prog",gov:"الدوادمي",place:"البجادية (المرحلة 3)",assoc:"جمعية البر بالبجادية",houses:9,price:664907,status:"تم التحويل وأُرسل سند القبض",note:"الورقة تفيد بتحويل دفعة وإرسال سند القبض دون ذكر المبلغ، فلا تدخل في إجمالي الدفعات المحوّلة."},
+{sec:"prog",gov:"الدوادمي",place:"مركز النبوان",assoc:"جمعية البر بالنبوان",houses:7,price:250000,status:"في انتظار تعديل المستندات وتم تذكيره",note:"كان 5 منازل في الورقة السابقة؛ صار 7 بنفس التسعيرة."},
+{sec:"prog",gov:"الدوادمي",place:"ساجر",assoc:"جمعية البر الخيرية بساجر",houses:1,price:50000,pay:[20000,17500],status:"في انتظار الانتهاء من المرحلة الأخيرة وتم طلب تحديث منه"},
+{sec:"prog",gov:"الدوادمي",place:"مركز خف",assoc:"جمعية البر بمركز خف",houses:11,price:440266,pay:[220133],status:"في انتظار الانتهاء من المرحلة الأولى وتم طلب تحديث منه"},
+{sec:"prog",gov:"القويعية",place:"القويعية",assoc:"جمعية البر بالقويعية",houses:20,price:782246,pay:[273786],status:"في انتظار الانتهاء من المرحلة الأولى وتم طلب تحديث منه"},
+{sec:"prog",gov:"ضرماء",place:"ضرماء",assoc:"جمعية أسقف",houses:1,price:52095,status:"في انتظار الانتهاء من المرحلة الأولى وتم طلب تحديث منه",note:"نص الحالة مقصوص جزئيًا في ملف PDF."},
+{sec:"prog",gov:"حريملاء",place:"حريملاء وثادق",assoc:"جمعية استقرار",houses:4,price:233750,pay:[116875],parts:[["حريملاء",1],["ثادق",3]],status:"في انتظار الانتهاء من المرحلة الأولى وتم طلب تحديث منه",note:"خلية مدموجة في الورقة: 4 منازل بتسعيرة 233,750 — موزّعة بحسب إفادتك: ثادق 3 وحريملاء 1. نص الحالة مقصوص جزئيًا في ملف PDF."},
+
+/* ===== المستفيدون الجدد ===== */
+{sec:"new",gov:"عفيف",place:"عفيف (الشواطن)",assoc:"جمعية البر بالشواطن",houses:6,price:297000,status:ST_NEW},
+{sec:"new",gov:"القويعية",place:"القويعية (رويضة العرش)",assoc:"",houses:1,price:50000,status:ST_NEW},
+{sec:"new",gov:"الرين",place:"الرين",assoc:"جمعية البر بالرين",houses:13,price:367800,status:ST_NEW},
+
+/* ===== المنازل المتعثرة ===== */
+{sec:"stuck",gov:"حوطة بني تميم",place:"جمعية البر بحوطة بني تميم",assoc:"جمعية البر بحوطة بني تميم",houses:2,price:null,status:ST_STUCK},
+{sec:"stuck",gov:"وادي الدواسر",place:"وادي الدواسر (بيتي)",assoc:"جمعية بيتي",houses:7,price:null,status:ST_STUCK},
+{sec:"stuck",gov:"الرين",place:"الرين",assoc:"جمعية البر بالرين",houses:2,price:null,status:ST_STUCK},
+{sec:"stuck",gov:"الدوادمي",place:"مغيب السر",assoc:"جمعية البر بمغيب السر",houses:14,price:null,status:ST_STUCK},
+{sec:"stuck",gov:"عفيف",place:"عفيف",assoc:"جمعية البر بعفيف",houses:2,price:null,status:ST_STUCK},
+{sec:"stuck",gov:"المزاحمية",place:"المزاحمية (المرحلة 2)",assoc:"",houses:1,price:null,status:ST_STUCK}
+];
+R.forEach(r=>{
+  if(r.sec==="done"){r.status="تم الترميم";r.upd="";}
+  else if(r.sec==="prog"){r.upd="2026/10/08";}
+  else if(r.sec==="new"){r.upd="";}
+  else {r.upd="2026/08/26";}
+  r.parts=r.parts||[[r.gov,r.houses]];
+  r.paid=(r.pay||[]).reduce((s,v)=>s+v,0);
+  r.per=(r.price&&r.houses)?r.price/r.houses:null;
+});
+const SIN_PAY=[225000,112499,112499.5];            // دفعات مشروع سين المشترك (تُحتسب مرة واحدة)
+const SIN_PAID=SIN_PAY.reduce((s,v)=>s+v,0);
+
+/* مجاميع الورقة كما سُجّلت */
+const SHEET={done:[38,1811058],prog:[156,7978249],new:[20,714800],stuck:[28,null]};
+const APPROVED=10600000, TARGET_HOUSES=200, BENCH=50000;
+const SECN={done:"تم الترميم",prog:"قيد الترميم",new:"مستفيدون جدد",stuck:"متعثر"};
+const SECP={done:"p-done",prog:"p-prog",new:"p-new",stuck:"p-stuck"};
+
+/* ====== أدوات ====== */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const n=v=>typeof v==="number"?v:0;
+const nf=v=>Math.round(v).toLocaleString("en-US");
+const pc=(a,b)=>a/b*100, pct=v=>v.toFixed(1)+"%";
+const dash='<span class="dim">—</span>';
+const fmt=v=>(v===""||v==null)?dash:(typeof v==="number"?v.toLocaleString("en-US"):v);
+
+$$('nav.tabs button').forEach(b=>b.onclick=()=>{
+  $$('nav.tabs button').forEach(x=>x.setAttribute('aria-selected',x===b));
+  $$('section.tab').forEach(s=>s.hidden=(s.id!==b.dataset.tab));
+});
+
+/* ====== مجاميع ====== */
+const live=R.filter(r=>r.sec!=="stuck");
+const TOTAL_PRICE=live.reduce((s,r)=>s+n(r.price),0);
+const TOTAL_HOUSES=live.reduce((s,r)=>s+r.houses,0);
+const TRANSFERRED=R.reduce((s,r)=>s+r.paid,0)+SIN_PAID;
+const AVG=TOTAL_PRICE/TOTAL_HOUSES;
+const secSum=sec=>({p:R.filter(r=>r.sec===sec).length,h:R.filter(r=>r.sec===sec).reduce((s,r)=>s+r.houses,0),pr:R.filter(r=>r.sec===sec).reduce((s,r)=>s+n(r.price),0)});
+const S={done:secSum("done"),prog:secSum("prog"),new:secSum("new"),stuck:secSum("stuck")};
+
+/* المحافظات */
+const govMap={};
+R.forEach(r=>r.parts.forEach(([g,h])=>{
+  govMap[g]=govMap[g]||{done:0,prog:0,new:0,stuck:0,names:[]};
+  govMap[g][r.sec]+=h;
+  if(r.sec==="stuck")govMap[g].names.push(r.place);
+}));
+const allGovs=Object.keys(govMap);
+const activeGovs=allGovs.filter(g=>govMap[g].done+govMap[g].prog+govMap[g].new>0);
+
+/* ====== المؤشرات ====== */
+$('#sDone').textContent=S.done.h; $('#sProg').textContent=S.prog.h; $('#sNew').textContent=S.new.h;
+$('#sTotal').textContent=S.done.h+S.prog.h+S.new.h;
+$('#kPrice').textContent=nf(TOTAL_PRICE);
+$('#kPaid').textContent=nf(TRANSFERRED);
+$('#kPaidPct').textContent=pct(pc(TRANSFERRED,TOTAL_PRICE));
+$('#kPaidBar').style.width=Math.min(100,pc(TRANSFERRED,TOTAL_PRICE))+"%";
+$('#kAvg').textContent=nf(AVG); $('#kAvgN').textContent=TOTAL_HOUSES;
+$('#kCommit').textContent=pct(pc(AVG,BENCH));
+$('#kCommitBar').style.width=Math.min(100,pc(AVG,BENCH))+"%";
+$('#kCommitNote').textContent=AVG<=BENCH?`ضمن الحد · وفر ${nf(BENCH-AVG)} ريال للمنزل`:`تجاوز الحد بـ ${nf(AVG-BENCH)} ريال للمنزل`;
+$('#kGov').textContent=activeGovs.length; $('#kGovAll').textContent=allGovs.length;
+$('#kAppPct').textContent=pct(pc(APPROVED,TOTAL_PRICE));
+$('#kAppBar').style.width=Math.min(100,pc(TOTAL_PRICE,APPROVED))+"%";
+$('#kAppNote').textContent=APPROVED>=TOTAL_PRICE?`الفارق المتاح ${nf(APPROVED-TOTAL_PRICE)} ريال`:`التسعيرة تتجاوز المعتمد بـ ${nf(TOTAL_PRICE-APPROVED)} ريال`;
+$('#kScope').textContent=TOTAL_HOUSES;
+$('#kScopePct').textContent=pct(pc(TOTAL_HOUSES,TARGET_HOUSES));
+const segMax=Math.max(TOTAL_HOUSES,TARGET_HOUSES);
+$('#segDone').style.width=pc(S.done.h,segMax)+"%";
+$('#segProg').style.width=pc(S.prog.h,segMax)+"%";
+$('#segNew').style.width=pc(S.new.h,segMax)+"%";
+$('#lgDone').textContent=S.done.h; $('#lgDoneP').textContent=pct(pc(S.done.h,TARGET_HOUSES));
+$('#lgProg').textContent=S.prog.h; $('#lgProgP').textContent=pct(pc(S.prog.h,TARGET_HOUSES));
+$('#lgNew').textContent=S.new.h;   $('#lgNewP').textContent=pct(pc(S.new.h,TARGET_HOUSES));
+$('#kScopeNote').textContent=TOTAL_HOUSES>TARGET_HOUSES?`تجاوز المستهدف بـ ${TOTAL_HOUSES-TARGET_HOUSES} منزلاً`:`المتبقي للمستهدف ${TARGET_HOUSES-TOTAL_HOUSES} منزلاً`;
+$('#kDone').textContent=S.done.h; $('#kDoneP').textContent=S.done.p; $('#kDonePr').textContent=nf(S.done.pr);
+$('#kProg').textContent=S.prog.h; $('#kProgP').textContent=S.prog.p; $('#kProgPr').textContent=nf(S.prog.pr);
+$('#kNew').textContent=S.new.h;   $('#kNewP').textContent=S.new.p;   $('#kNewPr').textContent=nf(S.new.pr);
+
+/* ====== المتعثرة ====== */
+const stuck=R.filter(r=>r.sec==="stuck");
+$('#stuckChips').innerHTML=stuck.map(r=>`<span class="chip">${r.place}</span>`).join("");
+$('#stuckBody').innerHTML=stuck.map(r=>`<tr><td>${r.place}</td><td>${r.gov}</td><td class="num">${r.houses}</td><td class="dim num">${r.upd}</td><td class="cell-status">${r.status}</td></tr>`).join("");
+$('#stuckSum').textContent=stuck.reduce((s,r)=>s+r.houses,0);
+
+/* ====== جدول المشاريع ====== */
+allGovs.sort((a,b)=>a.localeCompare(b,"ar")).forEach(g=>$('#fGov').insertAdjacentHTML('beforeend',`<option>${g}</option>`));
+let sortKey=null, sortDir=1;
+R.forEach((r,i)=>r.idx=i+1);
+function view(){
+  const q=$('#q').value.trim(), s=$('#fSec').value, g=$('#fGov').value;
+  let rows=R.filter(r=>{
+    const hay=[r.gov,r.place,r.assoc,r.status,SECN[r.sec],r.parts.map(p=>p[0]).join(" ")].join(" ");
+    return (!q||hay.includes(q))&&(!s||r.sec===s)&&(!g||r.parts.some(p=>p[0]===g));
+  });
+  if(sortKey){rows=[...rows].sort((x,y)=>{
+    let A=x[sortKey],B=y[sortKey];
+    if(typeof A==="number"||typeof B==="number")return (n(A)-n(B))*sortDir;
+    return String(A??"").localeCompare(String(B??""),"ar")*sortDir;});}
+  return rows;
+}
+function render(){
+  const rows=view();
+  $('#tbody').innerHTML=rows.map(r=>{
+    const i=R.indexOf(r), per=r.per;
+    return `<tr class="click" data-i="${i}">
+      <td class="dim num">${r.idx}</td>
+      <td><span class="pill ${SECP[r.sec]}">${SECN[r.sec]}</span></td>
+      <td>${r.parts.length>1?r.parts.map(p=>p[0]).join(" · "):r.gov}</td>
+      <td>${r.place}</td>
+      <td>${r.assoc||dash}</td>
+      <td>${r.sec==="stuck"?`<span class="pill p-stuck">${r.place}</span>`:`<span class="num">${r.houses}</span>`}</td>
+      <td class="num">${r.price?r.price.toLocaleString("en-US"):dash}</td>
+      <td class="num ${per>BENCH?'over':''}">${per?nf(per):dash}</td>
+      <td class="num">${r.paid?nf(r.paid):(r.shared?'<span class="dim" title="دفعات مشروع سين المشتركة">مشترك</span>':dash)}</td>
+      <td class="cell-status">${r.status}</td>
+      <td class="dim num">${r.upd||dash}</td>
+    </tr>`}).join("");
+  const lv=rows.filter(r=>r.sec!=="stuck");
+  const H=lv.reduce((s,r)=>s+r.houses,0), PR=lv.reduce((s,r)=>s+n(r.price),0);
+  let PAID=rows.reduce((s,r)=>s+r.paid,0); if(rows.some(r=>r.shared))PAID+=SIN_PAID;
+  $('#sumH').textContent=H.toLocaleString("en-US");
+  $('#sumP').textContent=nf(PR);
+  $('#sumPer').textContent=H?nf(PR/H):"—";
+  $('#sumPaid').textContent=nf(PAID);
+  const st=rows.length-lv.length;
+  $('#count').textContent=`${rows.length} من ${R.length} صفًا · ${H} منزلاً${st?` · ${st} متعثر بالاسم`:""}`;
+  $$('#tbody tr').forEach(tr=>tr.onclick=()=>openDrawer(R[+tr.dataset.i]));
+}
+['#q','#fSec','#fGov'].forEach(s=>$(s).addEventListener('input',render));
+$('#reset').onclick=()=>{$('#q').value='';$('#fSec').value='';$('#fGov').value='';sortKey=null;render();};
+$$('#tbl thead th[data-k]').forEach(th=>th.onclick=()=>{const k=th.dataset.k;sortDir=(sortKey===k)?-sortDir:1;sortKey=k;render();});
+
+/* ====== البطاقة الجانبية ====== */
+function openDrawer(r){
+  $('#dTitle').textContent=r.place;
+  $('#dSub').textContent=`${r.parts.length>1?r.parts.map(p=>p[0]+" ("+p[1]+")").join(" · "):r.gov} · ${SECN[r.sec]}`;
+  const stuckRow=r.sec==="stuck";
+  const F=[["القسم",SECN[r.sec]],["الجمعية المنفذة",r.assoc],
+    [stuckRow?"اسم المشروع المتعثر":"عدد المنازل",stuckRow?r.place:r.houses],
+    ["تسعيرة المشروع",r.price],["تكلفة المنزل",r.per?nf(r.per)+" ريال"+(r.per>BENCH?" (فوق الحد المرجعي)":""):""],
+    ["الدفعات المسجّلة",r.pay?r.pay.map(v=>v.toLocaleString("en-US")).join(" + "):""],
+    ["إجمالي المحوّل",r.paid||""],
+    ["نسبة الصرف",(r.paid&&r.price)?pct(pc(r.paid,r.price)):""],
+    ["حالة المشروع",r.status],["آخر تحديث",r.upd]];
+  $('#dList').innerHTML=F.map(([k,v])=>`<dt>${k}</dt><dd class="num">${fmt(v)}</dd>`).join("");
+  $('#dNote').innerHTML=(r.note?`<div class="note">${r.note}</div>`:"")+(r.pay?`<div class="note" style="background:#46B3A612;border-color:#46B3A640;color:#BFE6E0">مبالغ الدفعات من ورقة projects.x1sx؛ الورقة 3 لا تتضمن أعمدة دفعات.</div>`:"");
+  $('#drawer').classList.add('open');$('#drawer').setAttribute('aria-hidden','false');$('#scrim').classList.add('open');
+}
+function closeDrawer(){$('#drawer').classList.remove('open');$('#drawer').setAttribute('aria-hidden','true');$('#scrim').classList.remove('open');}
+$('#dClose').onclick=closeDrawer;$('#scrim').onclick=closeDrawer;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer()});
+
+/* ====== التغطية الجغرافية ====== */
+const govRows=allGovs.map(g=>({g,...govMap[g],t:govMap[g].done+govMap[g].prog+govMap[g].new})).sort((a,b)=>b.t-a.t||a.g.localeCompare(b.g,"ar"));
+$('#govBody').innerHTML=govRows.map(r=>`<tr><td>${r.g}</td><td class="num">${r.done||dash}</td><td class="num">${r.prog||dash}</td><td class="num">${r.new||dash}</td><td class="num"><b>${r.t||dash}</b></td><td>${r.names.length?r.names.map(x=>`<span class="pill p-stuck" style="margin:1px">${x}</span>`).join(" "):dash}</td></tr>`).join("");
+$('#gD').textContent=govRows.reduce((s,r)=>s+r.done,0);
+$('#gP').textContent=govRows.reduce((s,r)=>s+r.prog,0);
+$('#gN').textContent=govRows.reduce((s,r)=>s+r.new,0);
+$('#gT').textContent=govRows.reduce((s,r)=>s+r.t,0);
+
+/* ====== الرسوم ====== */
+function bars(el,data,cls){
+  const max=Math.max(...data.map(d=>d[1]))||1;
+  el.innerHTML=data.map(d=>`<div class="bar ${cls||''}">
+    <div class="row"><span>${d[0]}</span><b class="num">${d[2]||d[1].toLocaleString("en-US")}</b></div>
+    <div class="track"><div class="fill" style="width:${Math.max(0,d[1]/max*100).toFixed(1)}%"></div></div></div>`).join("");
+}
+bars($('#chartSec'),[["تم الترميم",S.done.h],["قيد الترميم",S.prog.h],["مستفيدون جدد",S.new.h]],'gold');
+bars($('#chartSecPrice'),[["تم الترميم",S.done.pr],["قيد الترميم",S.prog.pr],["مستفيدون جدد",S.new.pr]],'green');
+bars($('#chartGov'),govRows.filter(r=>r.t).map(r=>[r.g,r.t]));
+bars($('#chartPrice'),live.filter(r=>r.price).sort((a,b)=>b.price-a.price).slice(0,10).map(r=>[r.place,r.price]),'green');
+bars($('#chartProg'),R.filter(r=>r.paid&&r.price).map(r=>[r.place,+pc(r.paid,r.price).toFixed(1),pc(r.paid,r.price).toFixed(0)+"%"]).sort((a,b)=>b[1]-a[1]),'gold');
+bars($('#chartPer'),live.filter(r=>r.per).sort((a,b)=>b.per-a.per).slice(0,10).map(r=>[r.place,Math.round(r.per),nf(r.per)]),'sky');
+
+/* ====== الملخص المالي ====== */
+$('#avgBody').innerHTML=["done","prog","new"].map(k=>{
+  const a=S[k].pr/S[k].h, p=pc(a,BENCH);
+  return `<tr><td><span class="pill ${SECP[k]}">${SECN[k]}</span></td><td class="num">${S[k].h}</td><td class="num">${nf(S[k].pr)}</td><td class="num">${nf(a)}</td><td class="num ${p>100?'over':'okc'}">${pct(p)}</td></tr>`;
+}).join("")+`<tr style="font-weight:700;background:#ffffff08"><td>الإجمالي</td><td class="num">${TOTAL_HOUSES}</td><td class="num">${nf(TOTAL_PRICE)}</td><td class="num">${nf(AVG)}</td><td class="num ${AVG>BENCH?'over':'okc'}">${pct(pc(AVG,BENCH))}</td></tr>`;
+
+const recon=[];
+["done","prog","new"].forEach(k=>{
+  recon.push([`${SECN[k]} — عدد المنازل`,SHEET[k][0],S[k].h]);
+  recon.push([`${SECN[k]} — التسعيرة`,SHEET[k][1],S[k].pr]);
+});
+recon.push(["المتعثرة — عدد المنازل",SHEET.stuck[0],S.stuck.h]);
+$('#reconBody').innerHTML=recon.map(([k,a,b])=>{
+  const d=Math.round(b-a), ok=Math.abs(d)<1;
+  return `<tr><td>${k}</td><td class="num">${nf(a)}</td><td class="num">${nf(b)}</td><td class="num ${ok?'okc':'over'}">${ok?'مطابق ✓':(d>0?'+':'')+nf(d)}</td></tr>`;}).join("");
+
+bars($('#chartApp'),[["القيمة المعتمدة",APPROVED],["تسعيرة المشاريع (بلا المتعثرة)",TOTAL_PRICE],["الدفعات المحوّلة",Math.round(TRANSFERRED)]],'gold');
+$('#payNote').innerHTML=`<h3>ملاحظة على الدفعات</h3>
+  <p class="hint">إجمالي الدفعات المحوّلة <b class="num">${nf(TRANSFERRED)}</b> ريال = <b>${pct(pc(TRANSFERRED,TOTAL_PRICE))}</b> من التسعيرة.</p>
+  <p style="margin:0;line-height:1.9;font-size:13.5px">الورقة 3 لا تحتوي أعمدة الدفعات، فالمبالغ مأخوذة من آخر ورقة مسجَّل فيها الدفعات (projects.x1sx). وقد تغيّرت الحالات منذ ذلك الحين — فمثلًا <b>البجادية (المرحلة 3)</b> تفيد الورقة 3 بأنه «تم التحويل وأُرسل سند القبض» دون مبلغ، فلا يظهر في الإجمالي. الرقم إذن حدٌّ أدنى حتى تُزوّدني بمبالغ الدفعات المحدّثة.</p>`;
+
+render();
+</script>
+</body>
+</html>
